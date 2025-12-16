@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo_builtin.c                                     :+:      :+:    :+:   */
+/*   echo_builtin.c                                     :+:      :+:    :+:   */ /*                                                                            */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:55:59 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/03 15:48:44 by mcombeau         ###   ########.fr       */
+/*   Updated: 2025/12/16 20:10:12 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,38 +20,28 @@
 static bool	is_n_flag(char *arg)
 {
 	int		i;
-	bool	n_flag;
 
-	n_flag = false;
-	i = 0;
-	if (arg[i] != '-')
-		return (n_flag);
-	i++;
+	if (!arg || arg[0] != '-')
+		return (false);
+	i = 1;
 	while (arg[i] && arg[i] == 'n')
 		i++;
-	if (arg[i] == '\0')
-		n_flag = true;
-	return (n_flag);
+	return (arg[i] == '\0');
 }
 
 /* echo_print_args:
 *	Prints the given array of aruments to STDOUT.
 */
-static void	echo_print_args(char **args, bool n_flag, int i)
+static void	echo_print_args(char **args, int start_index)
 {
-	if (!args[i])
-	{
-		if (!n_flag)
-			ft_putchar_fd('\n', STDOUT_FILENO);
-		return ;
-	}
+	int	i;
+
+	i = start_index;
 	while (args[i])
 	{
 		ft_putstr_fd(args[i], STDOUT_FILENO);
 		if (args[i + 1])
 			ft_putchar_fd(' ', STDOUT_FILENO);
-		else if (!args[i + 1] && !n_flag)
-			ft_putchar_fd('\n', STDOUT_FILENO);
 		i++;
 	}
 }
@@ -59,7 +49,7 @@ static void	echo_print_args(char **args, bool n_flag, int i)
 /* echo_builtin:
 *	Executes the echo builtin command: prints the given strings
 *	and adds a \n character or not depending on the -n option.
-*	Returns 1 on completion.
+*	Returns EXIT_SUCCESS on completion.
 */
 int	echo_builtin(t_data *data, char **args)
 {
@@ -74,6 +64,8 @@ int	echo_builtin(t_data *data, char **args)
 		n_flag = true;
 		i++;
 	}
-	echo_print_args(args, n_flag, i);
+	echo_print_args(args, i);
+	if (!n_flag)
+		ft_putchar_fd('\n', STDOUT_FILENO);
 	return (EXIT_SUCCESS);
 }
