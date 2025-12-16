@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:03:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/11 14:22:23 by mcombeau         ###   ########.fr       */
+/*   Updated: 2025/12/16 20:05:33 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,8 @@ static void	update_wds(t_data *data, char *wd)
 		free_ptr(data->old_working_dir);
 		data->old_working_dir = ft_strdup(data->working_dir);
 	}
-	if (data->working_dir)
-	{
-		free_ptr(data->working_dir);
-		data->working_dir = ft_strdup(wd);
-	}
-	free_ptr(wd);
+	free_ptr(data->working_dir);
+	data->working_dir = wd;
 }
 
 /* chdir_errno_mod:
@@ -73,9 +69,7 @@ static bool	change_dir(t_data *data, char *path)
 		ret = ft_strjoin(tmp, path);
 		free_ptr(tmp);
 	}
-	else
-		ret = ft_strdup(cwd);
-	update_wds(data, ret);
+	update_wds(data, ft_strdup(ret));
 	return (true);
 }
 
@@ -87,11 +81,10 @@ int	cd_builtin(t_data *data, char **args)
 {
 	char	*path;
 
-	if (!args || !args[1] || ft_isspace(args[1][0])
-		|| args[1][0] == '\0' || ft_strncmp(args[1], "--", 3) == 0)
+	if (!args || ft_strncmp(args[1], "--", 3) == 0)
 	{
 		path = get_env_var_value(data->env, "HOME");
-		if (!path || *path == '\0' || ft_isspace(*path))
+		if (!path || *path == '\0')
 			return (errmsg_cmd("cd", NULL, "HOME not set", EXIT_FAILURE));
 		return (!change_dir(data, path));
 	}

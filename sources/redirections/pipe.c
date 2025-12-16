@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:06:24 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/04 17:21:47 by mcombeau         ###   ########.fr       */
+/*   Updated: 2025/12/16 19:09:55 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,13 @@ bool	create_pipes(t_data *data)
 	tmp = data->cmd;
 	while (tmp)
 	{
-		if (tmp->pipe_output || (tmp->prev && tmp->prev->pipe_output))
+		if (tmp->pipe_output == true)
 		{
 			fd = malloc(sizeof * fd * 2);
 			if (!fd || pipe(fd) != 0)
 			{
+				if (fd)
+					free(fd);
 				free_data(data, false);
 				return (false);
 			}

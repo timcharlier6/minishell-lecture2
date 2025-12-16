@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_args_default.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexa <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 00:05:49 by alexa             #+#    #+#             */
-/*   Updated: 2022/11/10 00:45:21 by alexa            ###   ########.fr       */
+/*   Updated: 2025/12/16 18:03:46 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,22 +84,17 @@ static char	**copy_default_in_new_tab(
 
 int	add_args_default_mode(t_token **token_node, t_command *last_cmd)
 {
-	int		i;
 	int		len;
+	int		nb_new_args;
 	char	**new_tab;
 	t_token	*temp;
 
-	i = 0;
 	temp = *token_node;
-	while (temp->type == WORD || temp->type == VAR)
-	{
-		i++;
-		temp = temp->next;
-	}
+	nb_new_args = count_arguments(temp);
 	len = 0;
 	while (last_cmd->args[len])
 		len++;
-	new_tab = malloc(sizeof(char *) * (i + len + 1));
+	new_tab = malloc(sizeof(char *) * (nb_new_args + len + 1));
 	if (!new_tab)
 		return (FAILURE);
 	new_tab = copy_default_in_new_tab(len, new_tab, last_cmd, token_node);
