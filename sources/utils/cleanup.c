@@ -58,9 +58,6 @@ void	close_fds(t_command *cmds, bool close_backups)
 	close_pipe_fds(cmds, NULL);
 }
 
-/* free_io:
-*	Frees the input/output fd structure.
-*/
 void	free_io(t_io_fds *io)
 {
 	if (!io)
@@ -79,9 +76,6 @@ void	free_io(t_io_fds *io)
 		free_ptr(io);
 }
 
-/* free_str_tab:
-*	Frees an array of strings.
-*/
 void	free_str_tab(char **tab)
 {
 	int	i;
@@ -103,10 +97,6 @@ void	free_str_tab(char **tab)
 	}
 }
 
-/* free_ptr:
-*	Frees a pointer of any type if it is not NULL and sets it to NULL.
-*	This avoids accidental double-frees.
-*/
 void	free_ptr(void *ptr)
 {
 	if (ptr != NULL)

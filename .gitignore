@@ -9,3 +9,6 @@ minishell
 /testing/todo_tests.md
 minishell_test.log
 .idea/
+.zed
+.cache
+*.json

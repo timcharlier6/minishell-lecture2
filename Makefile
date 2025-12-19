@@ -2,7 +2,7 @@
 NAME	= minishell
 
 # Compiler and compilation flags
-CC		= clang
+CC		= gcc
 CFLAGS	= -Werror -Wextra -Wall -gdwarf-4 -g
 
 # Build files and directories

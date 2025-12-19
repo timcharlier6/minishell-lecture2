@@ -26,6 +26,8 @@ char	*join_strs(char *str, char *add)
 		return (ft_strdup(add));
 	tmp = str;
 	str = ft_strjoin(tmp, add);
+	if (!str)
+		return (NULL);
 	free_ptr(tmp);
 	return (str);
 }
