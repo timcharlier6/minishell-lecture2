@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	variable_check(t_token **token_node)
+static void	assign_var_type_if_dollar_sign(t_token **token_node)
 {
 	int	i;
 
@@ -20,7 +20,7 @@ static void	variable_check(t_token **token_node)
 	while ((*token_node)->str[i])
 	{
 		if ((*token_node)->str[i] == '$')
-		{	
+		{
 			if ((*token_node)->prev && (*token_node)->prev->type == HEREDOC)
 				break ;
 			(*token_node)->type = VAR;
@@ -30,20 +30,15 @@ static void	variable_check(t_token **token_node)
 	}
 }
 
-int	check_if_var(t_token **token_lst)
+int	handle_dollar_sign(t_token **token_lst)
 {
 	t_token	*temp;
 
 	temp = *token_lst;
-	if (temp->type == PIPE)
-	{
-		errmsg("syntax error near unexpected token", temp->str, true);
-		return (FAILURE);
-	}
 	while (temp)
 	{
-		variable_check(&temp);
-		if (check_consecutives(&temp) == FAILURE)
+		assign_var_type_if_dollar_sign(&temp);
+		if (check_consecutives_sep(&temp) == FAILURE)
 			return (FAILURE);
 		temp = temp->next;
 	}

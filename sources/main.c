@@ -92,7 +92,7 @@ void	minishell_noninteractive(t_data *data, char *arg)
 *	minishell should be run interactively or not.
 *	Exits the shell with the exit status or the last command.
 */
-int	main(int ac, char **av, char **env)
+int main(int ac, char **av, char **env)
 {
 	t_data	data;
 

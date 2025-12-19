@@ -54,7 +54,7 @@ extern int	g_last_exit_code;
 *								STRUCTS									      *
 ******************************************************************************/
 typedef struct s_token
-{	
+{
 	char			*str;
 	char			*str_backup;
 	bool			var_exists;
@@ -160,12 +160,13 @@ int			set_status(int status, char *str, int i);
 int			is_separator(char *str, int i);
 int			save_word(t_token **token_lst, char *str, int index, int start);
 int			save_separator(t_token **token_lst, char *str, int index, int type);
+int			begins_with_sep(t_token *token);
 
 // lexer_grammar.c
-int			check_consecutives(t_token **token_lst);
+int			check_consecutives_sep(t_token **token_lst);
 
 // check_if_var.c
-int			check_if_var(t_token **token_lst);
+int			handle_dollar_sign(t_token **token_lst);
 
 // token_lst_utils.c
 t_token		*lst_new_token(char *str, char *str_backup, int type, int status);

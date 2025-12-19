@@ -78,10 +78,6 @@ int	errmsg_cmd(char *command, char *detail, char *error_message, int error_nb)
 	return (error_nb);
 }
 
-/* errmsg:
-*	Prints an error message that is unrelated to a specific command.
-*	Used in parsing phase for syntax errors.
-*/
 void	errmsg(char *errmsg, char *detail, int quotes)
 {
 	char	*msg;

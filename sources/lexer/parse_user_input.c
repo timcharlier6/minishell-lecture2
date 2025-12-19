@@ -26,10 +26,6 @@ static bool	input_is_space(char *input)
 	return (true);
 }
 
-/* parse_user_input:
-*	Tokenizes and parses user input into a structure for execution.
-*	Returns true if successful, false in case of error.
-*/
 bool	parse_user_input(t_data *data)
 {
 	if (data->user_input == NULL)
@@ -41,9 +37,9 @@ bool	parse_user_input(t_data *data)
 	add_history(data->user_input);
 	if (tokenization(data, data->user_input) == FAILURE)
 		return (false);
-	if (data->token->type == END)
+	if (begins_with_sep(data->token) == true)
 		return (false);
-	if (check_if_var(&data->token) == FAILURE)
+	if (handle_dollar_sign(&data->token) == FAILURE)
 		return (false);
 	var_expander(data, &data->token);
 	handle_quotes(data);
