@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int	var_exists(t_data *data, char *var)
+static bool	var_is_not_null(t_data *data, char *var)
 {
 	int		i;
 	int		len;
@@ -22,10 +22,10 @@ static int	var_exists(t_data *data, char *var)
 	while (data->env[i])
 	{
 		if (ft_strncmp(data->env[i], var, len) == 0)
-			return (0);
+			return (true);
 		i++;
 	}
-	return (1);
+	return (false);
 }
 
 static char	*search_env_var(t_data *data, char *var)
@@ -43,25 +43,29 @@ static char	*search_env_var(t_data *data, char *var)
 		i++;
 	}
 	str = ft_strdup(data->env[i] + len);
+	if (!str)
+		return (NULL);
 	return (str);
 }
 
-char	*recover_val(t_token *token, char *str, t_data *data)
+// Special exit status variable
+//
+char	*get_var_value(t_token *token, char *str, t_data *data)
 {
 	char	*value;
-	char	*var;
+	char	*key;
 
-	var = identify_var(str);
-	if (var && var_exists(data, var) == 0)
+	key = get_var_key(str);
+	if (key && var_is_not_null(data, key) == true)
 	{
 		if (token != NULL)
-			token->var_exists = true;
-		value = search_env_var(data, var);
+			token->var_is_not_null = true;
+		value = search_env_var(data, key);
 	}
-	else if (var && var[0] == '?' && var[1] == '=')
+	else if (key && key[0] == '?')
 		value = ft_itoa(g_last_exit_code);
 	else
 		value = NULL;
-	free_ptr(var);
+	free_ptr(key);
 	return (value);
 }

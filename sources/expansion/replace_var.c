@@ -21,7 +21,7 @@ static int	erase_var(t_token **token_node, char *str, int index)
 
 	i = 0;
 	j = 0;
-	len = ft_strlen(str) - var_length(str + index);
+	len = ft_strlen(str) - var_len(str + index);
 	new_str = (char *)malloc(sizeof(char) * len + 1);
 	if (!new_str)
 		return (1);
@@ -29,7 +29,7 @@ static int	erase_var(t_token **token_node, char *str, int index)
 	{
 		if (str[i] == '$' && i == index)
 		{
-			i = i + var_length(str + index) + 1;
+			i = i + var_len(str + index) + 1;
 			if (str[i] == '\0')
 				break ;
 		}
@@ -53,7 +53,7 @@ static char	*erase_and_replace(t_token **token_node, char *str,
 	char	*newstr;
 	int		newstr_size;
 
-	newstr_size = (ft_strlen(str) - var_length(str + index)
+	newstr_size = (ft_strlen(str) - var_len(str + index)
 			+ ft_strlen(var_value));
 	newstr = get_new_token_string(str, var_value, newstr_size, index);
 	if (token_node && *token_node)
@@ -64,11 +64,12 @@ static char	*erase_and_replace(t_token **token_node, char *str,
 	return (newstr);
 }
 
-int	replace_var(t_token **token_node, char *var_value, int index)
+// Puts the variable value into the token_node->str
+int	replace_var(t_token **token_node, char *var_value, int var_index)
 {
 	if (var_value == NULL)
 	{
-		if (erase_var(token_node, (*token_node)->str, index) == 1)
+		if (erase_var(token_node, (*token_node)->str, var_index) == 1)
 		{
 			free_ptr(var_value);
 			return (1);
@@ -77,14 +78,14 @@ int	replace_var(t_token **token_node, char *var_value, int index)
 	else
 	{
 		if (erase_and_replace(token_node, (*token_node)->str, \
-		var_value, index) == NULL)
+		var_value, var_index) == NULL)
 		{
 			free_ptr(var_value);
-			return (1);
+			return (FAILURE);
 		}
 	}
 	free_ptr(var_value);
-	return (0);
+	return (SUCCESS);
 }
 
 /* replace_str_heredoc:

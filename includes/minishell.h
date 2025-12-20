@@ -57,7 +57,7 @@ typedef struct s_token
 {
 	char			*str;
 	char			*str_backup;
-	bool			var_exists;
+	bool			var_is_not_null;
 	int				type;
 	int				status;
 	bool			join;
@@ -181,21 +181,21 @@ t_token		*insert_lst_between(t_token **head, t_token *to_del,
 int			var_expander(t_data *data, t_token **token_lst);
 
 //recover_value.c
-char		*recover_val(t_token *token, char *str, t_data *data);
+char		*get_var_value(t_token *token, char *str, t_data *data);
 
 //identify_var.c
-char		*identify_var(char *str);
-int			var_length(char *str);
-bool		is_var_compliant(char c);
+char		*get_var_key(char *str);
+int			var_len(char *str);
+bool		is_valid_var_name(char c);
 
 //replace_var.c
 int			replace_var(t_token **token_node, char *var_value, int index);
-void		copy_var_value(char *new_str, char *var_value, int *j);
+void		expand_var(char *new_str, char *var_value, int *j);
 char		*var_expander_heredoc(t_data *data, char *str);
 char		*replace_str_heredoc(char *str, char *var_value, int index);
 
 // var_expander_utils.c
-void		copy_var_value(char *new_str, char *var_value, int *j);
+void		expand_var(char *new_str, char *var_value, int *j);
 char		*get_new_token_string(char *oldstr, char *var_value,
 				int newstr_size, int index);
 

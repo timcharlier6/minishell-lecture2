@@ -12,21 +12,21 @@
 
 #include "minishell.h"
 
-void	copy_var_value(char *new_str, char *var_value, int *j)
+void	expand_var(char *new_str, char *var_value, int *j)
 {
-	int	k;
+	int	i;
 
-	k = 0;
-	while (var_value[k])
+	i = 0;
+	while (var_value[i])
 	{
-		new_str[*j] = var_value[k];
-		k++;
+		new_str[*j] = var_value[i];
+		i++;
 		(*j)++;
 	}
 }
 
 char	*get_new_token_string(char *oldstr, char *var_value,
-		int newstr_size, int index)
+		int newstr_size, int var_index)
 {
 	int		i;
 	int		j;
@@ -39,10 +39,10 @@ char	*get_new_token_string(char *oldstr, char *var_value,
 		return (NULL);
 	while (oldstr[i])
 	{
-		if (oldstr[i] == '$' && i == index)
+		if (oldstr[i] == '$' && i == var_index)
 		{
-			copy_var_value(new_str, var_value, &j);
-			i = i + var_length(oldstr + index) + 1;
+			expand_var(new_str, var_value, &j);
+			i = i + var_len(oldstr + var_index) + 1;
 			if (oldstr[i] == '\0')
 				break ;
 		}

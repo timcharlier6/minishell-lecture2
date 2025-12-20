@@ -18,7 +18,7 @@
 **  To join them, the tokens have to be of type VAR and the join
 **  setting must be set to true (the quotes are implied)
 **  The function is only used when the command is "echo".
-**  
+**
 **  ex: The strings -> "Hello" "  " "world"
 **      become "Hello  world"
 */
@@ -45,7 +45,7 @@ char	*join_vars(t_token **token_node)
 **  To consider a token or multiple tokens as an argument they must be either
 **  a WORD or a VAR and if they	temp = *token_node;
  are a VAR that has to be joined, we have
-**  to loop through all the tokens that check these conditions 
+**  to loop through all the tokens that check these conditions
 **  (type == VAR and join == true) before counting them as one argument
 */
 
@@ -114,7 +114,7 @@ void	remove_empty_var_args(t_token **tokens)
 	while (temp->type == WORD || temp->type == VAR)
 	{
 		if (temp->type == VAR && temp->str[0] == '\0'
-			&& temp->var_exists == false)
+			&& temp->var_is_not_null == false)
 		{
 			temp = temp->next;
 			if (temp == (*tokens)->next)
